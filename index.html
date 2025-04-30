@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexoGraphix Plus - Read Book Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+
+    <header class="site-header sticky-nav">
+        <div class="container nav-container">
+            <a href="/" class="logo">LexoGraphix Plus</a>
+            <nav class="main-nav">
+                <ul class="nav-links" id="navLinks">
+                    <li>
+                        <a href="https://lexographixplus.github.io/lexocademy" class="nav-link" target="_blank" rel="noopener noreferrer">
+                          Knowledge Base
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://lexographixplus.github.io/lexocademy" class="nav-link" target="_blank" rel="noopener noreferrer">
+                          Author Directory
+                        </a>
+                      </li>
+                    <li class="nav-contact-button-desktop">
+                        <a href="contact.html" class="btn btn-secondary btn-small">Contact Us</a>
+                    </li>
+                    <li class="nav-contact-button-mobile">
+                        <a href="contact.html" class="btn btn-secondary btn-small">Contact Us</a>
+                    </li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false"><i class="fas fa-bars"></i></button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="welcome-section text-center">
+            <div class="container welcome-container-grid">
+                <div class="welcome-text">
+                    <h1>Discover Your Next Read</h1>
+                    <p class="subtitle">Dive into sample chapters from books published by LexoGraphix Plus. Find compelling stories and support talented authors.</p>
+                     <a href="#bookGridSection" class="btn btn-primary">Get Started</a>
+                </div>
+       </section>
+        <section id="filterSection" class="search-filter-section">
+             <div class="container search-filter-container">
+                <div class="search-bar">
+                    <input type="search" id="searchInput" placeholder="Search by title or author...">
+                    <button id="searchButton" aria-label="Search"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="filter-controls">
+                    <label for="genreFilter">Filter by Genre:</label>
+                    <select id="genreFilter">
+                        <option value="all">All Genres</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+        <section id="bookGridSection" class="book-section">
+            <div class="container">
+                 <p class="progress-indicator" id="progressIndicator">Loading books...</p>
+                 <div class="loading-indicator" id="loadingSpinner"></div>
+                 <div id="errorMessage" class="error-message" style="display: none;"></div>
+                 <div class="book-grid" id="bookGrid">
+                     </div>
+                 <nav class="pagination" aria-label="Books pagination">
+                     <ul class="pagination-list" id="paginationList"></ul>
+                 </nav>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+         <div class="container footer-container">
+             <div class="footer-branding">
+                 <span class="logo-footer">LexoGraphix Plus</span>
+                 <p>© <span id="currentYear"></span> LexoGraphix Plus. All rights reserved.</p>
+             </div>
+             <div class="footer-links">
+                 <a href="#">Terms & Conditions</a> <a href="#">Privacy Policy</a>
+                 <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                 <a href="#" aria-label="Twitter"><i class="fab fa-twitter-square"></i></a>
+             </div>
+         </div>
+    </footer>
+
+    <div class="modal-overlay" id="bookModalOverlay">
+         <div class="modal-content modal-text-viewer" id="bookModalContent" role="dialog" aria-modal="true" aria-labelledby="modalBookTitle">
+             <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">×</button>
+             <div class="modal-header"><h2 id="modalBookTitle" tabindex="-1">Book Title</h2></div>
+             <div id="modalBody" class="modal-body-text">
+                 <div id="modalPageContentContainer">
+                     <div id="modalPageContent" class="modal-page-content"><p>Loading page...</p></div>
+                 </div>
+                 <div id="modalFormContainer" class="modal-form-container" style="display: none;">
+                     <h3 class="form-title">Enjoying the book?</h3>
+                     <p class="form-subtitle">Get a copy and support the author!</p>
+                     <form id="modalLeadForm">
+                         <div class="form-group"><label for="modalInputName">Name <span class="required">*</span></label><input type="text" id="modalInputName" required></div>
+                         <div class="form-group"><label for="modalInputEmail">Email <span class="required">*</span></label><input type="email" id="modalInputEmail" required></div>
+                         <p id="modalFormFeedback" class="form-feedback" aria-live="polite"></p>
+                         <button type="submit" id="modalSubmitFormBtn" class="btn btn-primary modal-form-submit">Get Full Access & Purchase</button>
+                     </form>
+                 </div>
+             </div>
+             <div id="modalNavigation" class="modal-navigation">
+                 <button id="modalPrevBtn" class="btn btn-secondary modal-nav-btn" disabled>&laquo; Previous</button>
+                 <span id="modalStepIndicator" class="modal-step-indicator">Page 1 of 4</span>
+                 <button id="modalNextBtn" class="btn btn-primary modal-nav-btn">Next &raquo;</button>
+             </div>
+         </div>
+     </div>
+
+    <button id="floatingContactButton" class="floating-contact-btn" aria-label="Open Contact Form">
+        <i class="fas fa-envelope"></i>
+    </button>
+
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-widget-header">
+            <div class="agent-info">
+                <i class="fas fa-headset agent-icon"></i> <span class="widget-title">LexoGraphix Plus Support</span>
+            </div>
+            <button class="chat-widget-close-btn" id="chatWidgetCloseBtn" aria-label="Close Chat">×</button>
+        </div>
+        <div class="chat-widget-body">
+            <div class="agent-message">
+                <p>Hello! I am the LexoGraphix Plus Virtual Agent. Kindly complete the form below and someone will contact you as soon as possible.</p>
+            </div>
+            <form id="chatForm" class="chat-form">
+                <div class="form-group">
+                    <label for="chatInputName">Name <span class="required">*</span></label>
+                    <input type="text" id="chatInputName" required>
+                </div>
+                <div class="form-group">
+                    <label for="chatInputEmail">Email <span class="required">*</span></label>
+                    <input type="email" id="chatInputEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="chatInputMessage">Message <span class="required">*</span></label>
+                    <textarea id="chatInputMessage" rows="4" required></textarea>
+                </div>
+                <p id="chatFormFeedback" class="form-feedback" aria-live="polite"></p>
+                <button type="submit" id="chatSubmitFormBtn" class="btn btn-primary chat-form-submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="script.js"></script>
+</body>
+</html>
